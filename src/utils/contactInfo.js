@@ -1,0 +1,10 @@
+export const CONTACT_NAME = "Samuel Ryan Ndung'u";
+export const CONTACT_EMAIL = 'sammuelryan4050@gmail.com';
+export const CONTACT_EMAIL_HREF = `mailto:${CONTACT_EMAIL}`;
+export const CONTACT_PHONE_DISPLAY = '+254 743 248 996';
+export const CONTACT_PHONE_NUMBER = '+254743248996';
+export const CONTACT_PHONE_HREF = `tel:${CONTACT_PHONE_NUMBER}`;
+export const CONTACT_WHATSAPP_HREF = `https://wa.me/${CONTACT_PHONE_NUMBER}`;
+export const CONTACT_ADDRESS = 'Nairobi, Kenya';
+export const CONTACT_LINKEDIN_HREF = 'https://www.linkedin.com/in/ndunguintelops/';
+export const CONTACT_GITHUB_HREF = 'https://github.com/Zhavia69';
