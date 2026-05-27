@@ -22,8 +22,13 @@
     "scripts": [
       "start",
       "build",
-      "serve"
+      "serve",
+      "dev", "vite",
+      "build", "vite build"
+      
+      
     ],
+    
     "warning": "🚨 CRITICAL: DO NOT REMOVE OR MODIFY ABOVE DEPENDENCIES - Required for app functionality"
   },
   "dependencies": {
