@@ -11,7 +11,7 @@ export default defineConfig({
   // Build configuration
   build: {
     // Changes output directory from dist to build
-    outDir: "build",
+    outDir: "dist",
     chunkSizeWarningLimit: 2000,
   },
 
