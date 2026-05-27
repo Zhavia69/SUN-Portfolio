@@ -24,8 +24,8 @@
       "build",
       "serve",
       "dev", "vite",
-      "build", "vite build"
-      
+      "build", "vite build",
+      "deploy", "gh-pages -d build"
       
     ],
     
