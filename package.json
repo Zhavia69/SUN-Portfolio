@@ -20,15 +20,12 @@
       "postcss"
     ],
     "scripts": [
-      "dev",
-      "vite",
+      "start",
       "build",
-      "vite build",
-      "preview",
-      "vite preview",
-      "deploy",
-      "gh-pages -d dist"
+      "serve"
+      
     ],
+    
     "warning": "🚨 CRITICAL: DO NOT REMOVE OR MODIFY ABOVE DEPENDENCIES - Required for app functionality"
   },
   "dependencies": {
