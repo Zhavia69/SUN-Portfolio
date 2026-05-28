@@ -1,18 +1,11 @@
 import React, { useState } from 'react';
 import Icon from '../../../components/AppIcon';
 import Button from '../../../components/ui/Button';
-import {
-  CONTACT_EMAIL,
-  CONTACT_EMAIL_HREF,
-  CONTACT_PHONE_DISPLAY,
-  CONTACT_PHONE_HREF,
-  CONTACT_WHATSAPP_HREF
-} from '../../../utils/contactInfo';
+import ContactModal from '../../../components/ContactModal';
 
 const QuickContact = () => {
   const [isConsultationOpen, setIsConsultationOpen] = useState(false);
-  const [selectedService, setSelectedService] = useState('');
-  const [urgencyLevel, setUrgencyLevel] = useState('normal');
+  const [showContactModal, setShowContactModal] = useState(false);
 
   const contactMethods = [
     {
@@ -21,9 +14,7 @@ const QuickContact = () => {
       color: "bg-green-500",
       description: "Fast contact for IT support, project questions, or quick coordination.",
       action: "Chat Now",
-      link: CONTACT_WHATSAPP_HREF,
-      bestFor: "Quick support",
-      availability: "Mobile friendly"
+      type: "whatsapp"
     },
     {
       method: "Phone Call",
@@ -31,9 +22,7 @@ const QuickContact = () => {
       color: "bg-blue-500",
       description: "Direct discussion for urgent technical issues or project scoping.",
       action: "Call Now",
-      link: CONTACT_PHONE_HREF,
-      bestFor: CONTACT_PHONE_DISPLAY,
-      availability: "Nairobi, Kenya"
+      type: "phone"
     },
     {
       method: "Email",
@@ -41,9 +30,7 @@ const QuickContact = () => {
       color: "bg-purple-500",
       description: "Best for detailed project briefs, documentation, and formal follow-up.",
       action: "Send Email",
-      link: CONTACT_EMAIL_HREF,
-      bestFor: "Detailed inquiries",
-      availability: CONTACT_EMAIL
+      type: "email"
     },
     {
       method: "Consultation",
@@ -51,9 +38,7 @@ const QuickContact = () => {
       color: "bg-orange-500",
       description: "Discuss web applications, database support, API integration, or cloud tooling.",
       action: "Request Session",
-      link: "#consultation",
-      bestFor: "Project planning",
-      availability: "By appointment"
+      type: "consultation"
     }
   ];
 
@@ -62,40 +47,12 @@ const QuickContact = () => {
     "Laravel/PHP backend development",
     "REST API integration and testing",
     "MySQL/PostgreSQL database support",
-    "Authentication and authorization flows",
     "Docker/Azure deployment support",
-    "Endpoint security and access controls",
-    "Helpdesk and systems support",
     "General inquiry"
   ];
 
-  const urgencyLevels = [
-    { value: 'low', label: 'Low Priority', description: 'Planning or exploratory discussion', color: 'text-green-600' },
-    { value: 'normal', label: 'Normal Priority', description: 'Standard project or support request', color: 'text-blue-600' },
-    { value: 'high', label: 'High Priority', description: 'Issue affecting active work', color: 'text-orange-600' },
-    { value: 'urgent', label: 'Urgent', description: 'Production support or time-sensitive issue', color: 'text-red-600' }
-  ];
-
-  const handleConsultationRequest = () => {
-    setIsConsultationOpen(true);
-  };
-
   const handleQuickContact = (method) => {
-    if (method?.link === "#consultation") {
-      handleConsultationRequest();
-    } else {
-      window.open(method?.link, '_blank');
-    }
-  };
-
-  const handleWhatsAppBooking = () => {
-    const service = selectedService || 'General inquiry';
-    const message = encodeURIComponent(
-      `Hi Samuel, I would like to discuss: ${service}. Priority: ${urgencyLevel}.`
-    );
-
-    window.open(`${CONTACT_WHATSAPP_HREF}?text=${message}`, '_blank');
-    setIsConsultationOpen(false);
+    setShowContactModal(true);
   };
 
   return (

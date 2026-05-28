@@ -202,7 +202,7 @@ const ProjectPortfolioUniverse = () => {
                   API integration, Laravel backend structure, MySQL troubleshooting, CRUD workflows, authentication flows, endpoint security basics, Docker/Azure deployment support, and user-focused technical support.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-3">
-                  <Link to="/technical-expertise-showcase" className="flex-1">
+                  <Link to="/skills" className="flex-1">
                     <Button variant="default" fullWidth iconName="Code" iconPosition="left" className="bg-brand-gold hover:shadow-luxury-elevated">
                       View Expertise
                     </Button>

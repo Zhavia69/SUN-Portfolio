@@ -1,52 +1,31 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Icon from '../AppIcon';
 import Button from './Button';
+import ContactModal from '../ContactModal';
 import {
   CONTACT_ADDRESS,
-  CONTACT_EMAIL,
-  CONTACT_EMAIL_HREF,
   CONTACT_GITHUB_HREF,
-  CONTACT_LINKEDIN_HREF,
-  CONTACT_PHONE_DISPLAY,
-  CONTACT_PHONE_HREF,
-  CONTACT_WHATSAPP_HREF
+  CONTACT_LINKEDIN_HREF
 } from '../../utils/contactInfo';
 
 const Footer = ({ showCTA = true }) => {
+  const [showContactModal, setShowContactModal] = useState(false);
   const currentYear = new Date()?.getFullYear();
 
   const contactInfo = [
     {
       id: 1,
-      icon: "Phone",
-      label: "Phone",
-      value: CONTACT_PHONE_DISPLAY,
-      href: CONTACT_PHONE_HREF,
-      description: "Direct Contact"
+      icon: "Mail",
+      label: "Get In Touch",
+      value: "Contact Options",
+      description: "Email, Phone, WhatsApp"
     },
     {
       id: 2,
-      icon: "Mail",
-      label: "Email",
-      value: CONTACT_EMAIL,
-      href: CONTACT_EMAIL_HREF,
-      description: "Professional Inquiries"
-    },
-    {
-      id: 3,
-      icon: "MessageCircle",
-      label: "WhatsApp",
-      value: CONTACT_PHONE_DISPLAY,
-      href: CONTACT_WHATSAPP_HREF,
-      description: "Quick Questions & Support"
-    },
-    {
-      id: 4,
       icon: "MapPin",
       label: "Location",
       value: CONTACT_ADDRESS,
-      href: "#",
       description: "East Africa Time (UTC+3)"
     }
   ];
@@ -74,9 +53,9 @@ const Footer = ({ showCTA = true }) => {
     { name: "Contact", href: "/collaboration-center-contact-hub" }
   ];
 
-  const handleContactClick = (href) => {
-    if (href?.startsWith('mailto:') || href?.startsWith('tel:') || href?.startsWith('https://') || href?.startsWith('whatsapp:')) {
-      window.open(href, '_blank');
+  const handleContactClick = (contactId) => {
+    if (contactId === 1) {
+      setShowContactModal(true);
     }
   };
 
@@ -127,7 +106,7 @@ const Footer = ({ showCTA = true }) => {
               {contactInfo?.map((contact) => (
                 <button
                   key={contact?.id}
-                  onClick={() => handleContactClick(contact?.href)}
+                  onClick={() => handleContactClick(contact?.id)}
                   className="flex items-start space-x-3 text-left w-full hover:text-brand-gold transition-luxury group"
                 >
                   <div className="w-9 h-9 bg-white/10 rounded-xl flex items-center justify-center flex-shrink-0 mt-0.5 group-hover:bg-brand-gold group-hover:text-primary transition-luxury">
@@ -166,7 +145,7 @@ const Footer = ({ showCTA = true }) => {
                 Ready to discuss a technical project or support need?
               </p>
               
-              <Link to="/collaboration-center-contact-hub" className="block">
+              <Link to="/contact" className="block">
                 <Button
                   variant="default"
                   fullWidth
@@ -221,6 +200,7 @@ const Footer = ({ showCTA = true }) => {
           </div>
         </div>
       </div>
+      <ContactModal isOpen={showContactModal} onClose={() => setShowContactModal(false)} />
     </footer>
   );
 };

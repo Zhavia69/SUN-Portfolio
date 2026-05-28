@@ -3,15 +3,12 @@ import { Link } from 'react-router-dom';
 import Icon from '../../../components/AppIcon';
 import Image from '../../../components/AppImage';
 import Button from '../../../components/ui/Button';
-import {
-  CONTACT_EMAIL_HREF,
-  CONTACT_PHONE_HREF,
-  CONTACT_WHATSAPP_HREF
-} from '../../../utils/contactInfo';
+import ContactModal from '../../../components/ContactModal';
 
 const HeroSection = () => {
   const [currentCaseStudy, setCurrentCaseStudy] = useState(0);
   const [currentTime, setCurrentTime] = useState(new Date());
+  const [showContactModal, setShowContactModal] = useState(false);
 
   const caseStudyHighlights = [
     {
@@ -145,18 +142,18 @@ const HeroSection = () => {
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4">
-              <Link to="/collaboration-center-contact-hub">
+              <Link to="/contact">
                 <Button
                   variant="default"
                   size="lg"
                   iconName="Calendar"
                   iconPosition="left"
-                  className="bg-brand-orange hover:bg-brand-orange/90 w-full sm:w-auto"
+                  className="bg-brand-gold hover:bg-brand-gold/90 w-full sm:w-auto"
                 >
                   Discuss a Project
                 </Button>
               </Link>
-              <Link to="/project-portfolio-universe">
+              <Link to="/projects">
                 <Button
                   variant="outline"
                   size="lg"
@@ -170,32 +167,36 @@ const HeroSection = () => {
             </div>
 
             <div className="flex flex-wrap items-center gap-4 pt-4 border-t border-white/20">
-              <span className="text-sm text-gray-300">Quick Contact:</span>
+              <Button
+                variant="secondary"
+                size="sm"
+                iconName="Mail"
+                iconPosition="left"
+                onClick={() => setShowContactModal(true)}
+                className="bg-white/10 hover:bg-white/20 text-white border-white/20"
+              >
+                Quick Contact
+              </Button>
+              <span className="text-sm text-gray-300">|</span>
               <a
-                href={CONTACT_WHATSAPP_HREF}
+                href="https://www.linkedin.com/in/ndunguintelops/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center space-x-2 text-success hover:text-success/80 transition-smooth"
-                aria-label="Contact Samuel Ryan via WhatsApp"
+                className="flex items-center space-x-2 text-gray-300 hover:text-brand-gold transition-smooth"
+                aria-label="Connect on LinkedIn"
               >
-                <Icon name="MessageCircle" size={16} aria-hidden="true" />
-                <span className="text-sm font-medium">WhatsApp</span>
+                <Icon name="Linkedin" size={16} aria-hidden="true" />
+                <span className="text-sm font-medium">LinkedIn</span>
               </a>
               <a
-                href={CONTACT_PHONE_HREF}
-                className="flex items-center space-x-2 text-primary hover:text-primary/80 transition-smooth"
-                aria-label="Call Samuel Ryan"
+                href="https://github.com/Zhavia69"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center space-x-2 text-gray-300 hover:text-brand-gold transition-smooth"
+                aria-label="Visit GitHub profile"
               >
-                <Icon name="Phone" size={16} aria-hidden="true" />
-                <span className="text-sm font-medium">Call</span>
-              </a>
-              <a
-                href={CONTACT_EMAIL_HREF}
-                className="flex items-center space-x-2 text-brand-gold hover:text-brand-gold/80 transition-smooth"
-                aria-label="Email Samuel Ryan"
-              >
-                <Icon name="Mail" size={16} aria-hidden="true" />
-                <span className="text-sm font-medium">Email</span>
+                <Icon name="Github" size={16} aria-hidden="true" />
+                <span className="text-sm font-medium">GitHub</span>
               </a>
             </div>
           </div>
@@ -289,6 +290,7 @@ const HeroSection = () => {
           </div>
         </div>
       </div>
+      <ContactModal isOpen={showContactModal} onClose={() => setShowContactModal(false)} />
     </section>
   );
 };

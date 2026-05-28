@@ -20,23 +20,28 @@ const Header = () => {
   const navigationItems = [
     {
       name: 'Home',
-      path: '/homepage-premium-it-professional',
+      path: '/',
       icon: 'Home'
     },
     {
       name: 'About',
-      path: '/about-professional-journey',
+      path: '/about',
       icon: 'User'
     },
     {
-      name: 'Expertise',
-      path: '/technical-expertise-showcase',
+      name: 'Skills',
+      path: '/skills',
       icon: 'Code'
     },
     {
-      name: 'Portfolio',
-      path: '/project-portfolio-universe',
+      name: 'Projects',
+      path: '/projects',
       icon: 'Briefcase'
+    },
+    {
+      name: 'Contact',
+      path: '/contact',
+      icon: 'Mail'
     }
   ];
 
@@ -64,7 +69,7 @@ const Header = () => {
         <div className="flex items-center justify-between h-20 px-4 sm:px-6 lg:px-8">
           {/* Logo */}
           <Link 
-            to="/homepage-premium-it-professional" 
+            to="/" 
             className="flex items-center space-x-3 hover:opacity-90 transition-luxury"
             onClick={closeMenu}
           >
@@ -99,7 +104,7 @@ const Header = () => {
 
           {/* Desktop CTA */}
           <div className="hidden lg:flex items-center space-x-4">
-            <Link to="/collaboration-center-contact-hub">
+            <Link to="/contact">
               <Button 
                 variant="outline" 
                 size="sm"
@@ -145,7 +150,7 @@ const Header = () => {
               
               {/* Mobile CTA Buttons */}
               <div className="pt-4 border-t border-border space-y-3">
-                <Link to="/collaboration-center-contact-hub" onClick={closeMenu}>
+                <Link to="/contact" onClick={closeMenu}>
                   <Button 
                     variant="outline" 
                     fullWidth

@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Routes as RouterRoutes, Route } from "react-router-dom";
+import { BrowserRouter, Routes as RouterRoutes, Route, Navigate } from "react-router-dom";
 import ScrollToTop from "components/ScrollToTop";
 import ErrorBoundary from "components/ErrorBoundary";
 import NotFound from "pages/NotFound";
@@ -16,15 +16,24 @@ const Routes = () => {
       <ErrorBoundary>
       <ScrollToTop />
       <RouterRoutes>
-        {/* Define your route here */}
+        {/* Primary Routes - Clean URLs */}
         <Route path="/" element={<HomepagePremiumItProfessional />} />
-        <Route path="/collaboration-center-contact-hub" element={<CollaborationCenterContactHub />} />
-        <Route path="/about-professional-journey" element={<AboutProfessionalJourney />} />
-        <Route path="/professional-references" element={<ClientSuccessStoriesReviews />} />
-        <Route path="/client-success-stories-reviews" element={<ClientSuccessStoriesReviews />} />
-        <Route path="/project-portfolio-universe" element={<ProjectPortfolioUniverse />} />
-        <Route path="/technical-expertise-showcase" element={<TechnicalExpertiseShowcase />} />
-        <Route path="/homepage-premium-it-professional" element={<HomepagePremiumItProfessional />} />
+        <Route path="/about" element={<AboutProfessionalJourney />} />
+        <Route path="/projects" element={<ProjectPortfolioUniverse />} />
+        <Route path="/skills" element={<TechnicalExpertiseShowcase />} />
+        <Route path="/contact" element={<CollaborationCenterContactHub />} />
+        <Route path="/testimonials" element={<ClientSuccessStoriesReviews />} />
+        
+        {/* Legacy Routes - Redirect for backward compatibility */}
+        <Route path="/homepage-premium-it-professional" element={<Navigate to="/" replace />} />
+        <Route path="/about-professional-journey" element={<Navigate to="/about" replace />} />
+        <Route path="/project-portfolio-universe" element={<Navigate to="/projects" replace />} />
+        <Route path="/technical-expertise-showcase" element={<Navigate to="/skills" replace />} />
+        <Route path="/collaboration-center-contact-hub" element={<Navigate to="/contact" replace />} />
+        <Route path="/professional-references" element={<Navigate to="/testimonials" replace />} />
+        <Route path="/client-success-stories-reviews" element={<Navigate to="/testimonials" replace />} />
+        
+        {/* 404 */}
         <Route path="*" element={<NotFound />} />
       </RouterRoutes>
       </ErrorBoundary>
