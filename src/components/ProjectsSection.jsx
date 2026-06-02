@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ExternalLink, Github, Code2, Database, Shield, Zap } from 'lucide-react';
+import { ExternalLink, Github, Code2, Database, Shield, Zap, TrendingUp } from 'lucide-react';
 
 const ProjectsSection = () => {
   const containerVariants = {
