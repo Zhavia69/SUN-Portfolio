@@ -207,7 +207,7 @@ const ProjectPortfolioUniverse = () => {
                       View Expertise
                     </Button>
                   </Link>
-                  <Link to="/professional-references" className="flex-1">
+                  <Link to="/testimonials" className="flex-1">
                     <Button variant="outline" fullWidth iconName="UserCheck" iconPosition="left">
                       View References
                     </Button>
