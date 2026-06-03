@@ -6,6 +6,9 @@ import { AboutSection, CertificationsSection } from './components/AboutAndCertif
 import SkillsDashboard from './components/SkillsDashboard';
 import ExperienceSection from './components/ExperienceSection';
 import ProjectsSection from './components/ProjectsSection';
+import InteractiveTerminal from './components/InteractiveTerminal';
+import CodeSnippetShowcase from './components/CodeSnippetShowcase';
+import TechStackVisualization from './components/TechStackVisualization';
 import ContactSection from './components/ContactSection';
 
 function App() {
@@ -29,6 +32,21 @@ function App() {
         {/* Skills Dashboard */}
         <section id="skills">
           <SkillsDashboard />
+        </section>
+
+        {/* Interactive Terminal */}
+        <section id="terminal">
+          <InteractiveTerminal />
+        </section>
+
+        {/* Tech Stack Visualization */}
+        <section id="tech-stack">
+          <TechStackVisualization />
+        </section>
+
+        {/* Code Snippet Showcase */}
+        <section id="code-snippets">
+          <CodeSnippetShowcase />
         </section>
 
         {/* Experience Section */}
