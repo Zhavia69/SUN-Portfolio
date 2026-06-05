@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, Activity, Command } from 'lucide-react';
 
-const Navigation = () => {
+const Navigation = ({ bootComplete }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [active, setActive] = useState('home');
   const [showCommand, setShowCommand] = useState(false);
@@ -55,7 +55,12 @@ const Navigation = () => {
 
   return (
     <>
-      <nav className="fixed top-0 left-0 right-0 z-50">
+      <motion.nav
+        initial={{ y: -80, opacity: 0 }}
+        animate={bootComplete ? { y: 0, opacity: 1 } : { y: -80, opacity: 0 }}
+        transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+        className="fixed top-0 left-0 right-0 z-50"
+      >
         <div className="absolute inset-0 bg-[#050816]/70 backdrop-blur-2xl border-b border-white/10" />
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -153,7 +158,7 @@ const Navigation = () => {
             </motion.div>
           )}
         </AnimatePresence>
-      </nav>
+      </motion.nav>
 
       {/* COMMAND PALETTE (UNCHANGED) */}
       <AnimatePresence>

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import {
   Terminal,
   Database,
@@ -24,7 +24,7 @@ const bootLines = [
 
 /* ---------------- SYSTEM ENGINE ---------------- */
 
-const Hero = () => {
+const Hero = ({ bootComplete, setBootComplete }) => {
   const containerRef = useRef(null);
 
   const { scrollYProgress } = useScroll({
@@ -37,13 +37,25 @@ const Hero = () => {
   const [mouse, setMouse] = useState({ x: 0, y: 0 });
 
   const [bootIndex, setBootIndex] = useState(0);
-  const [bootComplete, setBootComplete] = useState(false);
 
   const [metrics, setMetrics] = useState({
     api: 41,
     db: 99,
     infra: 87,
   });
+
+  /* ---------------- SCROLL LOCK DURING BOOT ---------------- */
+
+  useEffect(() => {
+    if (!bootComplete) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [bootComplete]);
 
   /* ---------------- BOOT ANIMATION ---------------- */
 
@@ -123,21 +135,127 @@ const Hero = () => {
       />
 
       {/* ---------------- BOOT SEQUENCE OVERLAY ---------------- */}
-      {!bootComplete && (
-        <div className="absolute inset-0 z-50 flex items-center justify-center bg-[#050816]">
-          <div className="font-mono text-sm text-cyan-300 space-y-2">
-            {bootLines.slice(0, bootIndex + 1).map((line, i) => (
-              <motion.p
-                key={i}
-                initial={{ opacity: 0, y: 5 }}
-                animate={{ opacity: 1, y: 0 }}
-              >
-                &gt; {line}
-              </motion.p>
-            ))}
-          </div>
-        </div>
-      )}
+      <AnimatePresence>
+        {!bootComplete && (
+          <motion.div
+            key="boot-overlay"
+            initial={{ opacity: 1 }}
+            exit={{ opacity: 0, scale: 1.02 }}
+            transition={{ duration: 0.6, ease: 'easeInOut' }}
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-[#050816]"
+          >
+            {/* SCANLINES */}
+            <div
+              className="absolute inset-0 pointer-events-none opacity-[0.04]"
+              style={{
+                backgroundImage:
+                  'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,255,255,0.08) 2px, rgba(0,255,255,0.08) 4px)',
+              }}
+            />
+
+            {/* GRID */}
+            <div className="absolute inset-0 bg-[linear-gradient(rgba(0,255,255,.02)_1px,transparent_1px),linear-gradient(90deg,rgba(0,255,255,.02)_1px,transparent_1px)] bg-[size:60px_60px]" />
+
+            {/* AURORA GLOW */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-cyan-500/10 blur-[160px] rounded-full" />
+
+            {/* TERMINAL WINDOW */}
+            <div className="relative w-[90%] max-w-lg">
+              {/* WINDOW CHROME */}
+              <div className="flex items-center gap-2 px-4 py-3 bg-[#0a0f1e] border border-white/10 rounded-t-xl">
+                <span className="w-3 h-3 rounded-full bg-red-500/80" />
+                <span className="w-3 h-3 rounded-full bg-yellow-500/80" />
+                <span className="w-3 h-3 rounded-full bg-green-500/80" />
+                <span className="ml-3 text-xs text-slate-500 font-mono">
+                  sr.ndungu@system:~
+                </span>
+              </div>
+
+              {/* TERMINAL BODY */}
+              <div className="bg-[#080d1a]/95 border border-t-0 border-white/10 rounded-b-xl p-6 font-mono text-sm backdrop-blur-xl">
+                {/* BOOT LINES */}
+                <div className="space-y-2 mb-6 min-h-[180px]">
+                  {bootLines.slice(0, bootIndex + 1).map((line, i) => {
+                    const isLast = i === bootIndex;
+                    const isDone = i < bootIndex || (i === bootLines.length - 1 && i === bootIndex);
+
+                    return (
+                      <motion.div
+                        key={i}
+                        initial={{ opacity: 0, x: -10 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.3 }}
+                        className="flex items-center gap-2"
+                      >
+                        <span className="text-cyan-600/60 select-none">❯</span>
+                        <span
+                          className={
+                            isDone && i === bootLines.length - 1
+                              ? 'text-green-400'
+                              : isDone
+                              ? 'text-slate-500'
+                              : 'text-cyan-300'
+                          }
+                        >
+                          {line}
+                        </span>
+                        {isLast && i !== bootLines.length - 1 && (
+                          <span className="inline-block w-2 h-4 bg-cyan-400 animate-pulse rounded-sm" />
+                        )}
+                      </motion.div>
+                    );
+                  })}
+                </div>
+
+                {/* SEPARATOR */}
+                <div className="border-t border-white/5 pt-4 flex items-center justify-between">
+                  {/* SYSTEM READOUTS */}
+                  <div className="flex gap-4 text-[10px] text-slate-600 font-mono uppercase tracking-widest">
+                    <span>
+                      mem{' '}
+                      <span className="text-cyan-400/60">
+                        {Math.min(64 + bootIndex * 12, 128)}mb
+                      </span>
+                    </span>
+                    <span>
+                      cpu{' '}
+                      <span className="text-cyan-400/60">
+                        {Math.min(12 + bootIndex * 8, 67)}%
+                      </span>
+                    </span>
+                    <span>
+                      pid{' '}
+                      <span className="text-cyan-400/60">1337</span>
+                    </span>
+                  </div>
+
+                  {/* PROGRESS */}
+                  <div className="flex items-center gap-2">
+                    <div className="w-24 h-1 bg-white/5 rounded-full overflow-hidden">
+                      <motion.div
+                        className="h-full bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full"
+                        initial={{ width: '0%' }}
+                        animate={{
+                          width: `${Math.round(
+                            ((bootIndex + 1) / bootLines.length) * 100
+                          )}%`,
+                        }}
+                        transition={{ duration: 0.4, ease: 'easeOut' }}
+                      />
+                    </div>
+                    <span className="text-[10px] text-slate-600 font-mono">
+                      {Math.round(
+                        ((bootIndex + 1) / bootLines.length) * 100
+                      )}
+                      %
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* ---------------- MAIN CONTENT ---------------- */}
       {bootComplete && (
