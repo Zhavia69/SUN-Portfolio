@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navigation from './components/Navigation';
 import Footer from './components/Footer';
 import Hero from './components/Hero';
@@ -10,9 +11,11 @@ import InteractiveTerminal from './components/InteractiveTerminal';
 import CodeSnippetShowcase from './components/CodeSnippetShowcase';
 import TechStackVisualization from './components/TechStackVisualization';
 import ContactSection from './components/ContactSection';
+import CVPage from './components/CVPage';
 
-function App() {
+function PortfolioHome() {
   const [bootComplete, setBootComplete] = useState(false);
+
   useEffect(() => {
     // Disable browser's automatic scroll restoration on refresh
     if ('scrollRestoration' in window.history) {
@@ -87,6 +90,17 @@ function App() {
         <Footer />
       </div>
     </div>
+  );
+}
+
+function App() {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<PortfolioHome />} />
+        <Route path="/cv" element={<CVPage />} />
+      </Routes>
+    </Router>
   );
 }
 

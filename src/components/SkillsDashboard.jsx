@@ -43,7 +43,7 @@ const SkillsDashboard = () => {
       items: ['Laravel (MVC)', 'PHP', 'Python', 'JavaScript/Node.js'],
       proficiency: 95,
       color: 'from-blue-500 to-cyan-500',
-      row: 'sm:row-span-2',
+      row: '',
     },
     {
       category: 'Databases & SQL',

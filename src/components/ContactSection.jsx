@@ -23,13 +23,35 @@ const ContactSection = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    // Simulate form submission
-    setTimeout(() => {
+
+    try {
+      const response = await fetch("https://formsubmit.co/ajax/sammuelryan4050@gmail.com", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: JSON.stringify({
+          name: formState.name,
+          email: formState.email,
+          subject: formState.subject,
+          message: formState.message,
+          _captcha: "false" // Disables the recaptcha for seamless AJAX
+        })
+      });
+
+      if (response.ok) {
+        setSubmitted(true);
+        setFormState({ name: '', email: '', subject: '', message: '' });
+      } else {
+        console.error("Failed to send message");
+      }
+    } catch (error) {
+      console.error("Error sending message:", error);
+    } finally {
       setLoading(false);
-      setSubmitted(true);
-      setFormState({ name: '', email: '', subject: '', message: '' });
       setTimeout(() => setSubmitted(false), 5000);
-    }, 1000);
+    }
   };
 
   const contactMethods = [
@@ -51,14 +73,14 @@ const ContactSection = () => {
       icon: Linkedin,
       label: 'LinkedIn',
       value: 'View Profile',
-      href: 'https://linkedin.com',
+      href: 'https://www.linkedin.com/in/ndunguintelops/',
       color: 'from-blue-600 to-blue-400',
     },
     {
       icon: Github,
       label: 'GitHub',
       value: 'View Repositories',
-      href: 'https://github.com',
+      href: 'https://github.com/Zhavia69',
       color: 'from-slate-700 to-slate-900',
     },
   ];

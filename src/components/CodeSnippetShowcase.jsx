@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Code2, Copy, Check, ChevronDown } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Code2, Copy, Check, ChevronDown, Languages, FileCode2 } from 'lucide-react';
 
 const CodeSnippetShowcase = () => {
   const [copied, setCopied] = useState(null);
   const [expandedSnippet, setExpandedSnippet] = useState(0);
+  const [translatedSnippets, setTranslatedSnippets] = useState({});
 
   const codeSnippets = [
     {
@@ -28,7 +29,9 @@ class ApiController extends Controller {
 
     return User::create($validated);
   }
-}`
+}`,
+      explanation: "This code handles user requests in a web application. The first function fetches active users and their roles to display them on a page. The second function validates new user data (ensuring a unique email and strong password) before securely saving the new user to the database.",
+      analogy: "Think of this Controller as a restaurant waiter. You (the user) place an order (request). The waiter checks if your order makes sense (validation), goes to the kitchen (database) to get your food, and brings it back to your table."
     },
     {
       title: 'MySQL Query Optimization',
@@ -48,7 +51,9 @@ LIMIT 50;
 
 -- Index creation for performance
 CREATE INDEX idx_users_status_date 
-ON users(status, created_at);`
+ON users(status, created_at);`,
+      explanation: "This query efficiently finds the top 50 active users who have placed orders in the last 30 days, along with their total order count. The second part creates a database index to make finding 'active' users and their 'creation dates' incredibly fast, instead of searching the whole database.",
+      analogy: "Imagine a massive library. Searching for specific books page-by-page takes forever. Creating an index is like adding a highly organized card catalog that instantly points you to the exact shelf, saving a huge amount of time."
     },
     {
       title: 'REST API with Python',
@@ -76,7 +81,9 @@ def fetch_data():
         return jsonify({
           'status': 'error',
           'message': str(e)
-        }), 500`
+        }), 500`,
+      explanation: "This code sets up a web server that listens for requests for data. It extracts the requested parameters, safely queries the underlying service for the information, and sends it back in a structured format (JSON). It also catches any errors and reports them gracefully without crashing.",
+      analogy: "It's like a drive-thru window. You pull up and ask for a specific combo meal (API request). The operator processes your order, packages the food (JSON response), and hands it to you. If the kitchen runs out of fries, they politely tell you instead of just shutting down the restaurant (error handling)."
     },
     {
       title: 'Authentication with JWT',
@@ -100,7 +107,9 @@ const authMiddleware = (req, res, next) => {
   });
 };
 
-module.exports = authMiddleware;`
+module.exports = authMiddleware;`,
+      explanation: "This acts as a security checkpoint for an application. Before letting someone access protected features, it checks if they have a digital VIP pass (JSON Web Token). If the pass is missing, expired, or fake, it denies entry. If valid, it reads the guest's ID and lets them through.",
+      analogy: "Think of it as a bouncer at an exclusive club. To get in, you need a wristband that glows under a special light (the secret key). The bouncer checks your wristband; if it's fake or you don't have one, you're not getting in. If it's valid, they know exactly who you are and let you proceed."
     }
   ];
 
@@ -172,24 +181,80 @@ module.exports = authMiddleware;`
                     className="overflow-hidden"
                   >
                     <div className="bg-slate-900 p-4 relative">
-                      {/* Copy Button */}
-                      <motion.button
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.95 }}
-                        onClick={() => handleCopy(snippet.code, idx)}
-                        className="absolute top-3 right-3 p-2 bg-slate-700 hover:bg-slate-600 rounded transition-colors z-10"
-                      >
-                        {copied === idx ? (
-                          <Check className="w-4 h-4 text-green-400" />
-                        ) : (
-                          <Copy className="w-4 h-4 text-slate-300" />
-                        )}
-                      </motion.button>
+                      {/* Action Buttons */}
+                      <div className="absolute top-3 right-3 flex gap-2 z-10">
+                        {/* Translate Button */}
+                        <motion.button
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
+                          onClick={() => setTranslatedSnippets(prev => ({...prev, [idx]: !prev[idx]}))}
+                          className={`px-3 py-1.5 rounded flex items-center gap-2 transition-colors text-sm font-medium ${
+                            translatedSnippets[idx] 
+                              ? 'bg-cyan-500 text-white shadow-lg shadow-cyan-500/20' 
+                              : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
+                          }`}
+                          title="Translate to English"
+                        >
+                          {translatedSnippets[idx] ? <FileCode2 className="w-4 h-4" /> : <Languages className="w-4 h-4" />}
+                          <span className="hidden sm:inline">{translatedSnippets[idx] ? 'View Code' : 'Explain'}</span>
+                        </motion.button>
 
-                      {/* Code */}
-                      <pre className="text-xs sm:text-sm text-slate-100 font-mono overflow-x-auto">
-                        <code>{snippet.code}</code>
-                      </pre>
+                        {/* Copy Button */}
+                        <motion.button
+                          whileHover={{ scale: 1.1 }}
+                          whileTap={{ scale: 0.95 }}
+                          onClick={() => handleCopy(snippet.code, idx)}
+                          className="p-1.5 bg-slate-700 hover:bg-slate-600 rounded transition-colors flex items-center justify-center"
+                          title="Copy Code"
+                        >
+                          {copied === idx ? (
+                            <Check className="w-4 h-4 text-green-400" />
+                          ) : (
+                            <Copy className="w-4 h-4 text-slate-300" />
+                          )}
+                        </motion.button>
+                      </div>
+
+                      {/* Code or Translation */}
+                      <div className="min-h-[150px] pt-12 pb-4">
+                        <AnimatePresence mode="wait">
+                          {translatedSnippets[idx] ? (
+                            <motion.div
+                              key="translation"
+                              initial={{ opacity: 0, y: 10 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              exit={{ opacity: 0, y: -10 }}
+                              transition={{ duration: 0.2 }}
+                              className="text-slate-200 text-sm sm:text-base leading-relaxed space-y-6"
+                            >
+                              <div>
+                                <h4 className="text-cyan-400 font-semibold mb-2 flex items-center gap-2">
+                                  <span className="text-lg">⚙️</span> What it does:
+                                </h4>
+                                <p className="text-slate-300">{snippet.explanation}</p>
+                              </div>
+                              <div className="bg-slate-800/50 p-4 rounded-lg border border-slate-700">
+                                <h4 className="text-yellow-400 font-semibold mb-2 flex items-center gap-2">
+                                  <span className="text-lg">💡</span> Analogy:
+                                </h4>
+                                <p className="italic text-slate-300">{snippet.analogy}</p>
+                              </div>
+                            </motion.div>
+                          ) : (
+                            <motion.div
+                              key="code"
+                              initial={{ opacity: 0, y: 10 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              exit={{ opacity: 0, y: -10 }}
+                              transition={{ duration: 0.2 }}
+                            >
+                              <pre className="text-xs sm:text-sm text-slate-100 font-mono overflow-x-auto">
+                                <code>{snippet.code}</code>
+                              </pre>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </div>
                     </div>
 
                     {/* Footer Info */}

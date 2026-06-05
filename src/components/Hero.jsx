@@ -10,6 +10,7 @@ import {
   ArrowRight,
   CheckCircle2,
 } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 /* ---------------- BOOT SEQUENCE ---------------- */
 
@@ -334,10 +335,13 @@ const Hero = ({ bootComplete, setBootComplete }) => {
                     <ArrowRight className="w-4 h-4 text-white" />
                     <span>Projects</span>
                     </a>
-                    <button className="bg-white/5 border border-white/10 py-3 rounded-xl flex items-center justify-center gap-2 hover:bg-white/5 focus:outline-none focus:ring-0">
-                    <Download className="w-4 h-4" />
-                        CV
-                        </button>
+                    <Link
+                      to="/cv"
+                      className="bg-white/5 border border-white/10 py-3 rounded-xl flex items-center justify-center gap-2 hover:bg-white/5 focus:outline-none focus:ring-0 text-white"
+                    >
+                      <Download className="w-4 h-4" />
+                      CV
+                    </Link>
                         
 </div>
 
