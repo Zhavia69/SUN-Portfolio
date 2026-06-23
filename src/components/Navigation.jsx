@@ -69,10 +69,10 @@ const Navigation = ({ bootComplete }) => {
             {/* LOGO */}
             <motion.div
               whileHover={{ scale: 1.05 }}
-              className="flex items-center gap-2 font-bold"
+              className="flex items-center gap-3 font-bold cursor-pointer"
+              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
             >
-              <div className="w-2 h-2 bg-cyan-400 rounded-full animate-pulse" />
-              <span className="bg-gradient-to-r from-cyan-300 to-blue-500 bg-clip-text text-transparent">
+                        <span className="hidden sm:inline-block bg-gradient-to-r from-cyan-300 to-blue-500 bg-clip-text text-transparent">
                 Sr. Ndungu Portfolio
               </span>
             </motion.div>

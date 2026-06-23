@@ -81,7 +81,7 @@ const ProjectsSection = () => {
 
   const featuredLiveProjects = [
     {
-      title: 'SUNS Elite Luxury Travel',
+      title: 'Suns Elite Luxury Travel',
       description: 'Premium luxury travel agency website showcasing elite destinations with a sophisticated design and immersive user experience.',
       stack: ['React', 'Next.js', 'Tailwind CSS', 'Framer Motion'],
       image: '/assets/images/suns-elite.png',
